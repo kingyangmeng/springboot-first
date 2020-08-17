@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.weaving.dao.business.platform.workorder.WorkorderDao">
+
+	<sql id="listPage">
+		<where>
+				<if test="null != createBy and '' != createBy ">
+					and createBy = #{createBy}
+				</if>
+				<if test="null !=roderStatus  and '' != roderStatus ">
+					and roderStatus = #{roderStatus}
+				</if>
+				<if test="null != orderType and '' != orderType ">
+					and orderType =#{orderType}
+				</if>
+				<if test="null !=  parkId and '' != parkId ">
+					and parkId = #{parkId}
+				</if>
+			</where>
+	</sql>
+
+
+	<insert id="add" parameterType="com.weaving.entry.business.platform.workorder.Workorder">
+		insert into 
+			business_workorder 
+			(id,orderType,parkId,parkName,remark,roderStatus,createDate,deptId,createBy) 
+		values 
+			(#{id},#{orderType},#{parkId},#{parkName},#{remark},#{roderStatus},#{createDate},#{deptId},#{createBy})
+	</insert>
+
+	
+	<select id="list" parameterType="com.weaving.entry.business.platform.workorder.Workorder" resultType="com.weaving.entry.business.platform.workorder.Workorder">
+		select * from business_workorder
+			<include refid="listPage"></include>
+		ORDER BY createDate DESC LIMIT #{index} , #{num}
+	</select>
+
+
+	<select id="count" parameterType="com.weaving.entry.business.platform.workorder.Workorder" resultType="Integer">
+		select count(id) from business_workorder
+			<include refid="listPage"></include>
+	</select>
+
+</mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weaving.dao.business.platform.log.operate.LogOperateDao">
+	
+	<sql id="listPage">
+		<where>
+			<if test="null != opearteType and ''!=  opearteType">
+				and opearteType = #{opearteType}
+			</if>
+			<if test="null !=parkId and ''!= parkId ">
+				and parkId = #{parkId}
+			</if>
+			<if test="null != userId and ''!=  userId">
+				and userId = #{userId}
+			</if>
+			<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+				and createDate BETWEEN #{startDate} AND #{endDate}
+			</if>
+		</where>
+	</sql>
+	
+	<insert id="add" parameterType="com.weaving.entry.business.platform.log.operate.Operate">
+		insert into log_operate 
+			(id,createDate,deptId,parkName,opearteType,parkId,userId,roleName,realname,phone) 
+		values
+			(#{id},#{createDate},#{deptId},#{parkName},#{opearteType},#{parkId},#{userId},#{roleName},#{realname},#{phone})
+	</insert>
+	
+	<select id="list" parameterType="com.weaving.entry.business.platform.log.operate.Operate" resultType="com.weaving.entry.business.platform.log.operate.Operate">
+		select * from log_operate 
+		<include refid="listPage"></include>
+		ORDER BY createDate DESC LIMIT #{index} , #{num}
+		
+	</select>
+	
+	<select id="count" parameterType="com.weaving.entry.business.platform.log.operate.Operate" resultType="Integer">
+		select count(id) from log_operate 
+		<include refid="listPage"></include>
+	</select>
+</mapper>

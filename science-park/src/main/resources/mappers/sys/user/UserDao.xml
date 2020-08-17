@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weaving.dao.sys.user.UserDao">
+	
+	<insert id="addUser" parameterType="com.weaving.entry.sys.user.User">
+		insert into sys_user (id,username,phone,photo,password,realname,userStatus,sex) 
+					values (#{id},#{username},#{phone},#{photo},#{password},#{realname},#{userStatus},#{sex})
+	</insert>
+	
+	<update id="updateUser" parameterType="com.weaving.entry.sys.user.User">
+		update sys_user set 
+			username = #{username},
+			realname = #{realname},
+			sex = #{sex},
+			phone = #{phone},
+			photo = #{photo}
+		where id = #{id}
+		
+	</update>
+	
+	<update id="forbidden" parameterType="String">
+		update sys_user set 
+			userStatus = #{userStatus}
+		where id = #{id}
+	</update>
+	
+	<delete id="deleteUser" parameterType="java.lang.String">
+		update sys_user set 
+			userStatus = "2"
+		where id = #{id}
+	</delete>
+	
+	<select id="getUserList" resultType="com.weaving.entry.sys.user.User">
+		select * from sys_user where userStatus != "2"
+	</select>
+
+	
+	<select id="queryUser" parameterType="com.weaving.entry.sys.user.User" resultType="com.weaving.entry.sys.user.User">
+		select u.* from sys_user u where  username = #{username} and password = #{password} and userStatus = "0"
+	</select>
+	
+	<select id="queryDeptByUserId" parameterType="String" resultType="String">
+		select deptId from sys_dept_user where userId = #{userId}
+	</select>
+
+	<!-- 添加用户和车场关系 -->
+	<insert id="addUserPark" parameterType="com.weaving.entry.sys.user.SysUserPark">
+		insert into sys_user_park (id,userId,parkId) values (#{id},#{userId},#{parkId})
+ 	</insert>
+
+</mapper>

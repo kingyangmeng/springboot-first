@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.weaving.dao.business.platform.log.run.LogRunDao">
+
+	<sql id="listPage">
+		<where>
+				<if test="null != eventType and '' != eventType">
+					and eventType = #{eventType}
+				</if>
+				<if test="null != parkId and '' != parkId">
+					and parkId = #{parkId}
+				</if>
+				<if test="null != deviceId and '' != deviceId">
+					and deviceId = #{deviceId}
+				</if>
+				<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+					and createDate BETWEEN #{startDate} AND #{endDate}
+				</if>
+			</where>
+	</sql>
+
+
+	<insert id="add" parameterType="com.weaving.entry.business.platform.log.run.Run">
+		insert into 
+		log_run 
+			(id,event,eventType,parkId,parkName,deviceId,createDate,deptId) 
+		values 
+			(#{id},#{event},#{eventType},#{parkId},#{parkName},#{deviceId},#{createDate},#{deptId})
+	</insert>
+	
+	<select id="list" parameterType="com.weaving.entry.business.platform.log.run.Run" resultType="com.weaving.entry.business.platform.log.run.Run">
+		select * from log_run 
+			<include refid="listPage"></include>
+		ORDER BY createDate DESC LIMIT #{index} , #{num}
+	</select>
+	
+	<select id="count" parameterType="com.weaving.entry.business.platform.log.run.Run" resultType="Integer">
+		select count(id) from log_run
+			<include refid="listPage"></include>
+	</select>
+
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weaving.dao.sys.menu.MenuDao">
+
+	<insert id="add" parameterType="com.weaving.entry.sys.menu.Menu">
+		insert into sys_menu
+			(id,name,parentId,level,url,type,seq,remark)
+		values
+			(#{id},#{name},#{parentId},#{level},#{url},#{type},#{seq},#{remark})
+	</insert>
+
+
+	<update id="update" parameterType="com.weaving.entry.sys.menu.Menu">
+		update sys_menu set
+			id = #{id},
+			name= #{name},
+			parentId= #{parentId},
+			level= #{level},
+			url= #{url},
+			type = #{type},
+			seq= #{seq},
+			remark= #{remark},
+	</update>
+	
+	<select id="getMenuById" parameterType="String" resultType="com.weaving.entry.sys.menu.Menu">
+		select * from sys_menu where id = #{id}
+	</select>
+
+	<select id="list" resultType="com.weaving.entry.sys.menu.Menu">
+		select * from sys_menu order by seq 
+	</select>
+	
+	
+	<select id="menulistByRole" parameterType="String" resultType="com.weaving.entry.sys.menu.Menu">
+		SELECT m.*, IF(rm.roleId != #{roleId},'',rm.roleId) as roleId FROM sys_menu m left join sys_role_menu rm on m.id = rm.menuId  order by seq
+	</select>
+	
+	
+	<!--只查询出角色有的菜单  -->
+	<select id="menulistByRoleId" parameterType="String" resultType="com.weaving.entry.sys.menu.Menu">
+			select m.* from sys_role_menu rm , sys_menu m where rm.menuId = m.id and rm.roleId = #{roleId}  order by m.seq
+	</select>
+
+
+</mapper>

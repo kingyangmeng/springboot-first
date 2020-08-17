@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weaving.dao.business.platform.device.DeviceDao">
+
+	<sql id="listPage">
+		<where>
+			<if test="null != province and '' != province">
+				and province = #{province}
+			</if>
+			<if test="null != city and '' != city">
+				and city = #{city}
+			</if>
+			<if test="null != district and '' != district">
+				and district = #{district}
+			</if>
+			<if test="null != parkId and '' != parkId">
+				and parkId = #{parkId}
+			</if>
+			<if test="null != deviceType and '' != deviceType">
+				and deviceType = #{deviceType}
+			</if>
+			<if test="null != deviceStatus and '' != deviceStatus">
+				and deviceStatus = #{deviceStatus}
+			</if>
+		</where>
+		
+	</sql>
+
+
+	<insert id="add" parameterType="com.weaving.entry.business.platform.device.Device">
+		insert into 
+			business_device 
+			(
+			 id,
+			 province,
+			 city ,
+			 district ,
+			 address , 
+			 parkId, 
+			 parkName,
+			 deviceType , 
+			 deviceName, 
+			 deviceIP,
+			 deviceCode,
+			 deviceStatus ,
+			 createDate ,
+			 deptId
+			 ) 
+		values 
+			(
+			#{id},
+			#{province},
+			#{city},
+			#{district},
+			#{address},
+			#{parkId},
+			#{parkName},
+			#{deviceType},
+			#{deviceName},
+			#{deviceIP},
+			#{deviceCode},
+			#{deviceStatus},
+			#{createDate},
+			#{deptId}
+			)
+	</insert>
+
+	<select id="list" parameterType="com.weaving.entry.business.platform.device.Device" resultType="com.weaving.entry.business.platform.device.Device">
+		select * form business_device
+		<include refid="listPage"></include>
+		ORDER BY createDate DESC LIMIT #{index} , #{num}
+		
+	</select>
+	
+	<select id="count" parameterType="com.weaving.entry.business.platform.device.Device" resultType="Integer">
+		select count(id) from business_device
+			<include refid="listPage"></include>
+	</select>
+
+
+</mapper>

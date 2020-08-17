@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weaving.dao.sys.dept.DeptDao">
+	
+	<insert id="addDept" parameterType="com.weaving.entry.sys.dept.Dept">
+		insert into sys_dept (id,name,parentId,level,seq,remark,createBy,createDate) 
+					values (#{id},#{name},#{parentId},#{level},#{seq},#{remark},#{createBy},#{createDate})
+	</insert>
+	
+	<select id="getDeptById" parameterType="java.lang.String" resultType="com.weaving.entry.sys.dept.Dept">
+		select * from sys_dept where id = #{id}
+	</select>
+	
+	
+	<select id="getList" resultType="com.weaving.entry.sys.dept.Dept">
+		select * from sys_dept order by seq
+	</select>
+	
+	<select id="getChildDept" parameterType="java.lang.String" resultType="com.weaving.entry.sys.dept.Dept">
+		select * from sys_dept where parentId  = #{parentId}
+	</select>
+	
+	<select id="getDeptByParams" parameterType="com.weaving.entry.sys.dept.Dept" resultType="com.weaving.entry.sys.dept.Dept">
+		select * from sys_dept
+		<where>
+			<if test="id != null or id != ''">
+				id = #{id}
+			</if>
+			<if test="name != null or name != ''">
+				name = #{name}
+			</if>
+			<if test="parentId != null or parentId != ''">
+				parentId = #{parentId}
+			</if>
+			<if test="level != null or level != ''">
+				level = #{level}
+			</if>
+			<if test="seq != null or seq != ''">
+				seq = #{seq}
+			</if>
+		</where>
+	</select>
+	
+	<update id="updateDept" parameterType="com.weaving.entry.sys.dept.Dept">
+		update sys_dept set 
+		   name= #{name},
+		   seq= #{seq},
+		   remark= #{remark}
+		where 
+		   id = #{id},
+	</update>
+	
+	<insert id="deptBindUser" parameterType="com.weaving.entry.sys.dept.SysDeptUser">
+		insert into sys_dept_user (id,deptId,userId) values (#{id},#{deptId},#{userId})
+	</insert>
+	
+	<delete id="cancleBindUser" parameterType="com.weaving.entry.sys.dept.SysDeptUser">
+		delete from sys_dept_user where deptId = #{deptId} and userId = #{userId}
+	</delete>
+
+
+</mapper>

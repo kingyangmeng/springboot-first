@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weaving.dao.business.platform.rule.RuleDao">
+
+	<insert id="add" parameterType="com.weaving.entry.business.platform.rule.Rule">
+		insert into 
+		business_park_rule 
+			(id,parkId,ordinary,maxMoney,night,nightStartDate,nightEndDate,military,ambulance,police) 
+		values 
+			(#{id},#{parkId},#{ordinary},#{maxMoney},#{night},#{nightStartDate},#{nightEndDate},#{military},#{ambulance},#{police})
+	</insert>
+	
+	<update id="update" parameterType="com.weaving.entry.business.platform.rule.Rule">
+		update set business_park_rule 
+			parkId = #{parkId},
+			ordinary = #{ordinary},
+			maxMoney = #{maxMoney},
+			night = #{night},
+			nightStartDate = #{nightStartDate},
+			nightEndDate = #{nightEndDate},
+			military = #{military},
+			ambulance = #{ambulance},
+			police = #{police}
+		where id = #{id}
+	</update>
+	
+	<select id="getRuleInfoByParkId" parameterType="String" resultType="com.weaving.entry.business.platform.rule.Rule">
+		select * from business_park_rule where parkId = #{parkId}
+	</select>
+
+</mapper>

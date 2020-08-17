@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weaving.dao.business.platform.blacklist.BlacklistDao">
+
+	<sql id="list">
+		<where>
+				<if test="null != plateNumber and '' != plateNumber">
+					and plateNumber LIKE "%"#{plateNumber}"%"
+				</if>
+				<if test="null != parkId and '' != parkId">
+					and parkId = #{parkId}
+				</if>
+		</where>
+	</sql>
+
+
+	<insert id="add" parameterType="com.weaving.entry.business.platform.blacklist.Blacklist">
+		insert into 
+		business_blacklist 
+			(id,plateNumber,cause,createDate,createBy,deptId,parkId) 
+		values 
+			(#{id},#{plateNumber},#{cause},#{createDate},#{createBy},#{deptId},#{parkId})
+	
+	</insert>
+	
+	<delete id="delete" parameterType="String">
+		delete from business_blacklist where id = #{id}
+	</delete>
+	
+	
+	<select id="list" parameterType="com.weaving.entry.business.platform.blacklist.Blacklist" resultType="com.weaving.entry.business.platform.blacklist.Blacklist">
+	
+		select * from business_blacklist
+			<include refid="list"></include>
+		ORDER BY createDate DESC LIMIT #{index} , #{num}
+	</select>
+	
+	<select id="count" parameterType="com.weaving.entry.business.platform.blacklist.Blacklist" resultType="Integer">
+		SELECT 
+			count(id) 
+		FROM business_blacklist
+			<include refid="list"></include>
+		
+	
+	</select>
+	
+	
+
+</mapper>
