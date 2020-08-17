@@ -32,8 +32,8 @@ import com.weaving.service.sys.user.UserService;
 @RequestMapping("/sys/user")
 @Scope("prototype")
 public class UserController {
-	
-	private final Logger log= LoggerFactory.getLogger(LoginController.class);
+
+	private final Logger log = LoggerFactory.getLogger(LoginController.class);
 
 	@Autowired
 	private UserService userService;
@@ -55,6 +55,19 @@ public class UserController {
 			log.info("==>系统异常：/sys/user/add  时间： " + new Date() + e.getMessage());
 			throw new DefinitionException("系统异常：/sys/user/add  时间： " + new Date() + e.getMessage());
 		}
+	}
+
+	
+	/**
+	 * 没有任何作用，测试git
+	 * @param id
+	 * @return
+	 */
+	@GetMapping("/get")
+	public ResultObj get(String id) {
+		ResultObj result = new ResultObj();
+
+		return result;
 	}
 
 	/**
