@@ -89,10 +89,10 @@ public class ParkServiceImpl implements ParkService {
 		// 保存停车场信息
 		parkDao.add(park);
 
-		// 保存计费规则
-		Rule rule = park.getRule();
-		rule.setParkId(park.getId());
-		ruleService.add(rule);
+//		// 保存计费规则
+//		Rule rule = park.getRule();
+//		rule.setParkId(park.getId());
+//		ruleService.add(rule);
 
 		// 添加停车场信息时，将停车场设备列表查询出来，然后添加到数据库里
 		deviceService.add(user, park);
